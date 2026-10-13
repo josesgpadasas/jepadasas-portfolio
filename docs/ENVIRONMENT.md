@@ -10,9 +10,15 @@
 
 ## Frontend (`frontend/.env.local`)
 
-| Variable | Default | Purpose |
-|----------|---------|---------|
-| `NEXT_PUBLIC_API_BASE_URL` | `http://localhost:3000/api/v1` | Portfolio fetch base |
+No env vars are required for production on **Vercel**. The site reads profile data from `frontend/src/data/portfolio/` (and exposes the same JSON at `/api/v1/portfolio`).
+
+Optional (local full stack only): set `NEXT_PUBLIC_API_BASE_URL` if you add client-side calls to an external Nest API.
+
+## Deploy on Vercel
+
+1. Import the GitHub repo.
+2. Set **Root Directory** to `frontend`.
+3. Deploy — no environment variables required for the portfolio page.
 
 ## Optional infra
 

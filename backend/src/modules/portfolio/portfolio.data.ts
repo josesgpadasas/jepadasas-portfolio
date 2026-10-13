@@ -7,8 +7,8 @@ import {
 } from './portfolio.util.js';
 
 /**
+ * Optional Nest mirror of profile data. Canonical copy for production: frontend/src/data/portfolio/.
  * Profile content from CS Form No. 212 (updated 2026-10-13).
- * N/A and non-applicable fields omitted.
  */
 const raw: Omit<PortfolioProfile, 'projects'> = {
   name: 'Joseph Esguerra Padasas',

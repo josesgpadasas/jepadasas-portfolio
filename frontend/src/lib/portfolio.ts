@@ -81,18 +81,9 @@ export function normalizePortfolioProfile(
   };
 }
 
-export async function fetchPortfolioProfile(): Promise<PortfolioProfile | null> {
-  const base =
-    process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3000/api/v1';
-  try {
-    const res = await fetch(`${base}/portfolio`, { cache: 'no-store' });
-    if (!res.ok) return null;
-    const json = (await res.json()) as Partial<PortfolioProfile>;
-    if (!json.name || !json.title) return null;
-    return normalizePortfolioProfile(
-      json as Partial<PortfolioProfile> & Pick<PortfolioProfile, 'name' | 'title'>,
-    );
-  } catch {
-    return null;
-  }
+import { getPortfolioProfile } from '@/data/portfolio/profile';
+
+/** Loads profile from in-app data (Vercel-friendly; no NestJS required). */
+export async function fetchPortfolioProfile(): Promise<PortfolioProfile> {
+  return normalizePortfolioProfile(getPortfolioProfile());
 }

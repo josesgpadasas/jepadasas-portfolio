@@ -6,7 +6,8 @@ Monorepo aligned with [`init_setup` reference architecture](M:\sys_dev\personal\
 |-----|-----|
 | Site | http://localhost:3001 |
 | API | http://localhost:3000/api/v1 |
-| Portfolio JSON | http://localhost:3000/api/v1/portfolio |
+| Portfolio JSON (Next.js) | http://localhost:3001/api/v1/portfolio |
+| Portfolio JSON (Nest, optional) | http://localhost:3000/api/v1/portfolio |
 
 ## Run locally
 
@@ -17,7 +18,6 @@ npm install
 npm run start:dev
 
 cd M:\sys_dev\personal\portfolio\frontend
-copy .env.example .env.local
 npm install
 npm run dev
 ```
@@ -26,7 +26,11 @@ Or use `scripts\start-dev.ps1` (starts both apps).
 
 ## Content
 
-Edit **`backend/src/modules/portfolio/portfolio.data.ts`** to match your personal data sheet. Empty, `N/A`, and “not applicable” strings are stripped automatically via `portfolio.util.ts`.
+Edit **`frontend/src/data/portfolio/profile.ts`** and **`projects.ts`** (source of truth for the live site). When using the optional Nest API locally, keep **`backend/src/modules/portfolio/`** in sync. Empty, `N/A`, and “not applicable” strings are stripped via `util.ts`.
+
+## Deploy (Vercel)
+
+Deploy the **`frontend`** folder only — no separate API host. See [`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md).
 
 Portrait: `frontend/public/profile.jpg`.
 
