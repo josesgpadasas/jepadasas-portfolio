@@ -30,7 +30,7 @@ Edit **`frontend/src/data/portfolio/profile.ts`** and **`projects.ts`** (source 
 
 ## Deploy (Vercel)
 
-Deploy the **`frontend`** folder only — no separate API host. See [`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md).
+Use the repo root with **[Vercel Services](https://vercel.com/docs/services)** (`vercel.json`): Next.js + NestJS on one domain. Set the project **Framework Preset** to **Services**. Details in [`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md).
 
 Portrait: `frontend/public/profile.jpg`.
 
