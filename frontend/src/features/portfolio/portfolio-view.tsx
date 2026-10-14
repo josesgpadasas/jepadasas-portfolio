@@ -24,10 +24,10 @@ export function PortfolioView({ profile }: Props) {
 
   return (
     <div className="content-canvas relative min-h-screen min-w-0 w-full max-w-full">
-      <main className="content-main relative z-[1] min-w-0 w-full max-w-full pb-24 pt-6 max-lg:pb-[calc(6rem+env(safe-area-inset-bottom,0px))] lg:pb-28 lg:pt-14">
+      <main className="content-main relative z-[1] min-w-0 w-full max-w-full pb-28 pt-6 lg:pt-14">
         <RevealSection
           id="about"
-          className="scroll-mt-28 pb-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:pb-16"
+          className="scroll-mt-10 pb-12 lg:pb-16"
         >
             <div className="mb-10 inline-flex items-center gap-2 rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-navy-soft)] shadow-[var(--shadow-card)] animate-fade-in">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-signal)]" />
@@ -83,7 +83,7 @@ export function PortfolioView({ profile }: Props) {
 
         <RevealSection
           id="focus"
-          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
+          className="section-shell scroll-mt-10 py-12 lg:py-16"
         >
             <SectionHeading
               code="01"
@@ -110,7 +110,7 @@ export function PortfolioView({ profile }: Props) {
 
         <RevealSection
           id="capabilities"
-          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
+          className="section-shell scroll-mt-10 py-12 lg:py-16"
         >
             <SectionHeading
               code="02"
@@ -146,7 +146,7 @@ export function PortfolioView({ profile }: Props) {
 
         <RevealSection
           id="experience"
-          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
+          className="section-shell scroll-mt-10 py-12 lg:py-16"
         >
             <SectionHeading
               code="03"
@@ -195,7 +195,7 @@ export function PortfolioView({ profile }: Props) {
         {education.length > 0 ? (
           <RevealSection
             id="education"
-            className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
+            className="section-shell scroll-mt-10 py-12 lg:py-16"
           >
               <SectionHeading
                 code="04"
@@ -242,7 +242,7 @@ export function PortfolioView({ profile }: Props) {
 
         <RevealSection
           id="competencies"
-          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
+          className="section-shell scroll-mt-10 py-12 lg:py-16"
         >
             <SectionHeading
               code="05"
@@ -264,7 +264,7 @@ export function PortfolioView({ profile }: Props) {
         {projects.length > 0 ? (
           <RevealSection
             id="projects"
-            className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
+            className="section-shell scroll-mt-10 py-12 lg:py-16"
           >
             <SectionHeading
               code="06"
@@ -355,7 +355,7 @@ export function PortfolioView({ profile }: Props) {
 
         <RevealSection
           id="connect"
-          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
+          className="section-shell scroll-mt-10 py-12 lg:py-16"
         >
             <SectionHeading
               code="07"

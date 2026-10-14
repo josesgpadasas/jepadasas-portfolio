@@ -24,6 +24,7 @@
   --color-nav-muted: #6b85ad;
 
   --nav-width: 4.75rem;
+  --nav-width-expanded: 16rem;
   --content-pad: clamp(1.25rem, 2.8vw, 2.75rem);
   --radius-sm: 2px;
 }
@@ -86,10 +87,40 @@ html {
   pointer-events: none;
 }
 
+.portfolio-shell {
+  --nav-width: 4.75rem;
+}
+
+@media (width >= 1024px) {
+  .portfolio-shell[data-nav-expanded='true'] {
+    --nav-width: var(--nav-width-expanded);
+  }
+}
+
 .shell-content {
   width: 100%;
   max-width: 100%;
   transition: padding-left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-mobile-backdrop {
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--color-navy) 52%, transparent);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  animation: nav-backdrop-in 0.25s ease forwards;
+}
+
+@keyframes nav-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .content-main {
@@ -399,10 +430,6 @@ html {
 
 /* Mobile / tablet only — desktop (lg+) rules above stay unchanged */
 @media (width < 1024px) {
-  html {
-    scroll-padding-top: 7.25rem;
-  }
-
   .content-main {
     --content-pad: clamp(1rem, 4vw, 1.5rem);
   }
@@ -472,11 +499,6 @@ html {
     bottom: max(1.25rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem));
     right: max(1rem, calc(env(safe-area-inset-right, 0px) + 0.75rem));
   }
-
-  .mobile-nav ul {
-    -webkit-overflow-scrolling: touch;
-    scroll-padding-inline: 0.75rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -504,8 +526,13 @@ html {
   }
 
   .animate-fade-in,
-  .status-pulse {
+  .status-pulse,
+  .nav-mobile-backdrop {
     animation: none;
+  }
+
+  .nav-mobile-backdrop {
+    opacity: 1;
   }
 
   .section-card:hover,

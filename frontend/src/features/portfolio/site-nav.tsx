@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   IconCollapse,
   IconExpand,
@@ -72,6 +72,28 @@ export function SiteNav({
     return () => observer.disconnect();
   }, [sections]);
 
+  const closeMobileOverlay = useCallback(() => {
+    if (
+      expanded &&
+      typeof window !== 'undefined' &&
+      window.matchMedia('(width < 1024px)').matches
+    ) {
+      onToggle();
+    }
+  }, [expanded, onToggle]);
+
+  useEffect(() => {
+    if (!expanded) return;
+    const mq = window.matchMedia('(width < 1024px)');
+    if (!mq.matches) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onToggle();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [expanded, onToggle]);
+
   const initials =
     displayName
       .split(' ')
@@ -82,10 +104,18 @@ export function SiteNav({
 
   return (
     <>
-      {/* Desktop sidebar */}
+      {expanded ? (
+        <button
+          type="button"
+          aria-label="Close navigation"
+          className="nav-mobile-backdrop fixed inset-0 z-[45] lg:hidden"
+          onClick={onToggle}
+        />
+      ) : null}
+
       <aside
         aria-label="Primary"
-        className={`nav-rail fixed inset-y-0 left-0 z-50 hidden flex-col border-r border-[var(--color-nav-border)] transition-[width] duration-300 ease-out lg:flex ${
+        className={`nav-rail fixed inset-y-0 left-0 z-50 flex flex-col border-r border-[var(--color-nav-border)] pt-[env(safe-area-inset-top,0px)] transition-[width] duration-300 ease-out ${
           expanded ? 'w-64' : 'w-[4.75rem]'
         }`}
       >
@@ -144,6 +174,7 @@ export function SiteNav({
                     href={`#${item.id}`}
                     title={!expanded ? item.label : undefined}
                     aria-current={active ? 'location' : undefined}
+                    onClick={closeMobileOverlay}
                     className={`nav-link group flex items-center rounded-sm ${
                       expanded
                         ? 'gap-3 border-l-2 px-3 py-2.5'
@@ -190,45 +221,6 @@ export function SiteNav({
           </div>
         )}
       </aside>
-
-      {/* Mobile */}
-      <nav
-        aria-label="Primary mobile"
-        className="nav-rail mobile-nav sticky top-0 z-50 border-b border-[var(--color-nav-border)] lg:hidden"
-      >
-        <div className="flex items-center justify-between gap-3 px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top,0px))]">
-          <div className="flex min-w-0 items-center gap-2">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-[var(--color-sky)] font-mono text-xs text-[var(--color-sky)]">
-              {initials || 'JEP'}
-            </span>
-            <span className="truncate font-mono text-sm font-semibold text-white">
-              {navTitle}
-            </span>
-          </div>
-        </div>
-        <ul className="flex gap-1 overflow-x-auto px-3 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {sections.map((item) => {
-            const active = activeId === item.id;
-            return (
-              <li key={item.id} className="shrink-0">
-                <a
-                  href={`#${item.id}`}
-                  aria-current={active ? 'location' : undefined}
-                  aria-label={item.label}
-                  className={`nav-link inline-flex items-center gap-2 rounded-sm border px-3 py-2 text-xs ${
-                    active
-                      ? 'border-[var(--color-sky)] bg-[var(--color-nav-active)] text-white'
-                      : 'border-[var(--color-nav-border)] text-[var(--color-nav-text)]'
-                  }`}
-                >
-                  <NavIcon id={item.id} className="h-4 w-4 shrink-0" />
-                  {item.label}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
     </>
   );
 }
