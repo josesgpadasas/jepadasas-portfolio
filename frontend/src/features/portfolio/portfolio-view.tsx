@@ -1,6 +1,20 @@
 import Image from 'next/image';
+import type { StaticImageData } from 'next/image';
+import profilePortrait from '@/assets/profile.jpg';
 import type { PortfolioProfile } from '@/lib/portfolio';
 import { RevealSection } from '@/features/portfolio/reveal-section';
+
+function resolvePortraitSrc(
+  portraitPath: string,
+): string | StaticImageData {
+  if (
+    portraitPath === '/profile.jpg' ||
+    portraitPath.endsWith('/profile.jpg')
+  ) {
+    return profilePortrait;
+  }
+  return portraitPath;
+}
 
 type Props = {
   profile: PortfolioProfile;
@@ -66,7 +80,7 @@ export function PortfolioView({ profile }: Props) {
                     <span className="text-[var(--color-accent)]">ready</span>
                   </div>
                   <Image
-                    src={profile.portraitPath}
+                    src={resolvePortraitSrc(profile.portraitPath)}
                     alt={`Portrait of ${profile.name}`}
                     width={480}
                     height={560}
