@@ -1,19 +1,12 @@
-import Image from 'next/image';
-import type { StaticImageData } from 'next/image';
 import profilePortrait from '@/assets/profile.jpg';
 import type { PortfolioProfile } from '@/lib/portfolio';
 import { RevealSection } from '@/features/portfolio/reveal-section';
 
-function resolvePortraitSrc(
-  portraitPath: string,
-): string | StaticImageData {
-  if (
+function usesBundledPortrait(portraitPath: string): boolean {
+  return (
     portraitPath === '/profile.jpg' ||
     portraitPath.endsWith('/profile.jpg')
-  ) {
-    return profilePortrait;
-  }
-  return portraitPath;
+  );
 }
 
 type Props = {
@@ -31,25 +24,25 @@ export function PortfolioView({ profile }: Props) {
 
   return (
     <div className="content-canvas relative min-h-screen min-w-0 w-full max-w-full">
-      <main className="content-main relative z-[1] min-w-0 w-full max-w-full pb-28 pt-8 lg:pt-14">
+      <main className="content-main relative z-[1] min-w-0 w-full max-w-full pb-24 pt-6 max-lg:pb-[calc(6rem+env(safe-area-inset-bottom,0px))] lg:pb-28 lg:pt-14">
         <RevealSection
           id="about"
-          className="scroll-mt-28 pb-16 lg:scroll-mt-10"
+          className="scroll-mt-28 pb-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:pb-16"
         >
             <div className="mb-10 inline-flex items-center gap-2 rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-navy-soft)] shadow-[var(--shadow-card)] animate-fade-in">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-signal)]" />
               Open to collaboration
             </div>
 
-            <div className="hero-grid grid w-full gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(240px,22rem)] lg:items-start xl:grid-cols-[minmax(0,1fr)_minmax(260px,24rem)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(280px,26rem)]">
+            <div className="hero-grid grid w-full gap-8 max-lg:min-w-0 lg:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(240px,22rem)] lg:items-start xl:grid-cols-[minmax(0,1fr)_minmax(260px,24rem)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(280px,26rem)]">
               <div className="min-w-0">
                 <p className="font-mono text-xs uppercase tracking-[0.25em] text-[var(--color-accent)]">
                   {profile.location}
                 </p>
-                <h1 className="mt-4 text-4xl font-bold leading-[1.08] tracking-tight text-[var(--color-navy)] sm:text-5xl xl:text-[3.25rem]">
+                <h1 className="mt-4 text-[clamp(1.75rem,7vw,2.25rem)] font-bold leading-[1.08] tracking-tight text-[var(--color-navy)] sm:text-5xl xl:text-[3.25rem]">
                   {profile.name}
                 </h1>
-                <p className="mt-4 text-xl font-semibold text-[var(--color-navy-soft)] sm:text-2xl">
+                <p className="mt-4 text-lg font-semibold leading-snug text-[var(--color-navy-soft)] sm:text-2xl">
                   {profile.title}
                 </p>
 
@@ -69,7 +62,7 @@ export function PortfolioView({ profile }: Props) {
                 </dl>
               </div>
 
-              <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none lg:justify-self-end">
+              <div className="hero-portrait relative mx-auto w-full max-w-[min(100%,20rem)] lg:mx-0 lg:max-w-none lg:justify-self-end">
                 <div
                   aria-hidden
                   className="portrait-offset absolute -left-3 -top-3 h-full w-full border-2 border-[var(--color-navy)] bg-[var(--color-panel)] transition-transform duration-300"
@@ -79,20 +72,19 @@ export function PortfolioView({ profile }: Props) {
                     <span>img/portrait</span>
                     <span className="text-[var(--color-accent)]">ready</span>
                   </div>
-                  <Image
-                    src={resolvePortraitSrc(profile.portraitPath)}
-                    alt={`Portrait of ${profile.name}`}
-                    width={480}
-                    height={560}
-                    priority
-                    className="aspect-6/7 w-full object-cover object-top"
+                  <ProfilePortrait
+                    name={profile.name}
+                    portraitPath={profile.portraitPath}
                   />
                 </div>
               </div>
             </div>
         </RevealSection>
 
-        <RevealSection id="focus" className="section-shell scroll-mt-28 py-16 lg:scroll-mt-10">
+        <RevealSection
+          id="focus"
+          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
+        >
             <SectionHeading
               code="01"
               title="Current focus"
@@ -118,7 +110,7 @@ export function PortfolioView({ profile }: Props) {
 
         <RevealSection
           id="capabilities"
-          className="section-shell scroll-mt-28 py-16 lg:scroll-mt-10"
+          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
         >
             <SectionHeading
               code="02"
@@ -154,14 +146,14 @@ export function PortfolioView({ profile }: Props) {
 
         <RevealSection
           id="experience"
-          className="section-shell scroll-mt-28 py-16 lg:scroll-mt-10"
+          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
         >
             <SectionHeading
               code="03"
               title="Work experience"
               description="National government roles, newest first."
             />
-            <ol className="relative mt-10 space-y-0 border-l-2 border-[var(--color-border)] pl-8">
+            <ol className="experience-timeline relative mt-10 space-y-0 border-l-2 border-[var(--color-border)] pl-8">
               {experience.map((item) => (
                 <li
                   key={`${item.organization}-${item.period}`}
@@ -203,7 +195,7 @@ export function PortfolioView({ profile }: Props) {
         {education.length > 0 ? (
           <RevealSection
             id="education"
-            className="section-shell scroll-mt-28 py-16 lg:scroll-mt-10"
+            className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
           >
               <SectionHeading
                 code="04"
@@ -250,7 +242,7 @@ export function PortfolioView({ profile }: Props) {
 
         <RevealSection
           id="competencies"
-          className="section-shell scroll-mt-28 py-16 lg:scroll-mt-10"
+          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
         >
             <SectionHeading
               code="05"
@@ -272,7 +264,7 @@ export function PortfolioView({ profile }: Props) {
         {projects.length > 0 ? (
           <RevealSection
             id="projects"
-            className="section-shell scroll-mt-28 py-16 lg:scroll-mt-10"
+            className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
           >
             <SectionHeading
               code="06"
@@ -363,14 +355,14 @@ export function PortfolioView({ profile }: Props) {
 
         <RevealSection
           id="connect"
-          className="section-shell scroll-mt-28 py-16 lg:scroll-mt-10"
+          className="section-shell scroll-mt-28 py-12 max-lg:scroll-mt-[7.25rem] lg:scroll-mt-10 lg:py-16"
         >
             <SectionHeading
               code="07"
               title="Connect"
               description="Professional channels."
             />
-            <ul className="mt-8 flex flex-wrap gap-4">
+            <ul className="connect-links mt-8 flex flex-wrap gap-4">
               {links.map((link) => (
                 <li key={link.href}>
                   <a
@@ -391,6 +383,44 @@ export function PortfolioView({ profile }: Props) {
 
       </main>
     </div>
+  );
+}
+
+function ProfilePortrait({
+  name,
+  portraitPath,
+}: {
+  name: string;
+  portraitPath: string;
+}) {
+  const alt = `Portrait of ${name}`;
+
+  if (usesBundledPortrait(portraitPath)) {
+    return (
+      // Native img: avoids /_next/image, which can fail under Vercel Services rewrites.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={profilePortrait.src}
+        alt={alt}
+        width={profilePortrait.width}
+        height={profilePortrait.height}
+        decoding="async"
+        fetchPriority="high"
+        className="block aspect-[6/7] w-full object-cover object-top"
+      />
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={portraitPath}
+      alt={alt}
+      width={480}
+      height={560}
+      decoding="async"
+      className="block aspect-[6/7] w-full object-cover object-top"
+    />
   );
 }
 
@@ -450,7 +480,7 @@ function SectionHeading({
           Section
         </p>
       </div>
-      <h2 className="mt-4 text-3xl font-bold tracking-tight text-[var(--color-navy)] xl:text-[2.125rem]">
+      <h2 className="mt-4 text-[1.625rem] font-bold leading-tight tracking-tight text-[var(--color-navy)] lg:text-3xl xl:text-[2.125rem]">
         {title}
       </h2>
       <p className="mt-3 max-w-4xl text-base leading-relaxed text-[var(--color-muted)]">

@@ -194,9 +194,9 @@ export function SiteNav({
       {/* Mobile */}
       <nav
         aria-label="Primary mobile"
-        className="nav-rail sticky top-0 z-50 border-b border-[var(--color-nav-border)] lg:hidden"
+        className="nav-rail mobile-nav sticky top-0 z-50 border-b border-[var(--color-nav-border)] lg:hidden"
       >
-        <div className="flex items-center justify-between gap-3 px-4 py-3">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top,0px))]">
           <div className="flex min-w-0 items-center gap-2">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-[var(--color-sky)] font-mono text-xs text-[var(--color-sky)]">
               {initials || 'JEP'}
