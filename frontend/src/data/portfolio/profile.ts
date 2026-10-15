@@ -26,12 +26,13 @@ const raw: Omit<PortfolioProfile, 'projects'> = {
       href: 'https://www.linkedin.com/in/joseph-padasas-64057b26b',
     },
   ],
+  /** "Current focus" section — edit strings below (order = display order). */
   focusAreas: compactStrings([
-    'Information systems analysis & support',
-    'Data management and analytics',
-    'Knowledge management systems',
-    'Project monitoring and evaluation',
-    'Web and productivity platforms for government teams',
+    'Information Systems Design & Development',
+    'Data Management & Analytics',
+    'Knowledge Management Platforms',
+    'Process Mapping & Streamlining',
+    'Artificial Intelligence Integration',
   ]),
   capabilities: [
     {
