@@ -8,7 +8,6 @@ export async function PortfolioPage() {
   return (
     <PortfolioShell
       showEducation={profile.education.length > 0}
-      displayName={profile.name}
       navTitle="josesgpadasas"
       navSubtitle="Personal Portfolio"
     >

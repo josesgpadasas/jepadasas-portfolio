@@ -135,7 +135,7 @@ export const rawProjects: PortfolioProject[] = [
     tools: compactStrings(['AppSheet', 'Google Sheets']),
     links: [
       {
-        label: 'User manual',
+        label: 'LGU-CMS user manual',
         href: 'https://bit.ly/LGU-CMS_Manual',
       },
     ],
@@ -155,7 +155,7 @@ export const rawProjects: PortfolioProject[] = [
     tools: compactStrings(['Google Sites', 'CQMS / Google Sheets']),
     links: [
       {
-        label: 'User manual',
+        label: 'EOC web portal',
         href: 'https://bit.ly/EOC-Web_Portal',
       },
     ],

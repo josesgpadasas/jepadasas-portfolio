@@ -16,8 +16,7 @@ const raw: Omit<PortfolioProfile, 'projects'> = {
   name: 'Joseph Esguerra Padasas',
   title: 'Information System Analyst III',
   headline: 'Department of Agriculture · Interim Agricultural Statistics Office',
-  summary:
-    'Career Service Professional helping national agencies connect programs to systems and data people can use every day. My work covers information systems analysis, knowledge management, project evaluation, and analytics—from scoping and design through rollout and support. I have served in technical contract-of-service roles with DILG, DHSUD, NFRDI, and the Department of Agriculture, with a consistent focus on clear requirements, accountable delivery, and adoption in the field.',
+  summary: `Results-driven IT Professional specializing in linking national government programs with practical, user-centered information systems and data solutions. I bring hands-on expertise in information systems analysis, knowledge management, project evaluation, and analytics—guiding initiatives from initial scoping and design through full implementation, rollout, and sustained support. Through technical contract-of-service roles with DILG, DHSUD, NFRDI, and the Department of Agriculture, I have consistently delivered clear requirements, accountable outcomes, and solutions that achieve genuine adoption in the field.`,
   location: 'Caloocan City, National Capital Region, Philippines',
   portraitPath: '/profile.jpg',
   links: [
@@ -36,45 +35,52 @@ const raw: Omit<PortfolioProfile, 'projects'> = {
   ]),
   capabilities: [
     {
-      title: 'Systems & data',
+      title: 'Databases & dashboards',
       description:
-        'Design and support agency tools, databases, and reporting aligned with public-sector requirements.',
+        'Design, develop, and maintain databases and interactive dashboards that improve data accessibility and support evidence-based decision-making in agency programs.',
       tools: compactStrings([
-        'Database management (SQL, Sheets, Firebase)',
-        'Google Apps Script',
-        'Data analysis and report writing',
+        'SQL',
+        'PostgreSQL',
+        'MySQL',
+        'Firebase',
+        'Supabase',
+        'Power BI',
+        'Data Studio',
       ]),
     },
     {
-      title: 'Application delivery',
+      title: 'Process automation & digitization',
       description:
-        'Build and maintain web-based tools for internal programs and field operations.',
+        'Automate and digitize key workflows to reduce manual workloads, strengthen consistency, and help teams deliver program outputs on schedule.',
       tools: compactStrings([
-        'HTML',
+        'Google Apps Script',
+        'Python',
+        'Google Workspace',
+        'Other low-code platforms',
+      ]),
+    },
+    {
+      title: 'Web platforms & monitoring',
+      description:
+        'Build user-friendly web platforms that enable department-wide data sharing and real-time monitoring of programs and projects.',
+      tools: compactStrings([
         'PHP',
         'JavaScript',
+        'React',
+        'Next.js',
+        'HTML',
         'CSS',
-        'Google Workspace',
-        'Microsoft Office',
       ]),
     },
     {
-      title: 'Program support',
+      title: 'Documentation & enablement',
       description:
-        'Evaluation, technical writing, and coordination across PMOs and line offices.',
+        'Prepare technical documentation, training manuals, and presentation materials tailored for both technical teams and non-technical stakeholders.',
       tools: compactStrings([
-        'Project evaluation',
-        'Technical documentation',
-        'Regional project monitoring (RPMES)',
-      ]),
-    },
-    {
-      title: 'Communications',
-      description:
-        'Visual and written materials that help teams adopt systems and comply with standards.',
-      tools: compactStrings([
-        'Graphic design (Canva)',
-        'Computer hardware/software troubleshooting',
+        'Technical writing',
+        'Training manuals',
+        'Stakeholder presentations',
+        'Process mapping',
       ]),
     },
   ],

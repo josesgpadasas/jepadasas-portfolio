@@ -1,6 +1,7 @@
 import profilePortrait from '@/assets/profile.jpg';
 import type { PortfolioProfile } from '@/lib/portfolio';
 import { RevealSection } from '@/features/portfolio/reveal-section';
+import { ConnectPanel } from '@/features/portfolio/connect-section';
 import { TechStackGrid } from '@/features/portfolio/tech-stack';
 
 function usesBundledPortrait(portraitPath: string): boolean {
@@ -51,7 +52,7 @@ export function PortfolioView({ profile }: Props) {
                   <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent)]">
                     About
                   </p>
-                  <p className="summary-text mt-3 text-base leading-[1.75] text-[var(--color-muted)] sm:text-lg sm:leading-8">
+                  <p className="summary-text mt-3 whitespace-pre-line text-base leading-[1.75] text-[var(--color-muted)] sm:text-lg sm:leading-8">
                     {profile.summary}
                   </p>
                 </div>
@@ -116,7 +117,7 @@ export function PortfolioView({ profile }: Props) {
             <SectionHeading
               code="02"
               title="Skills & Capabilities"
-              description="Technical skills applied from previous and current work experiences."
+              description="How systems work, data, and documentation support national programs in practice."
             />
             <div className="cap-grid mt-10 grid w-full gap-5">
               {capabilities.map((cap) => (
@@ -154,7 +155,7 @@ export function PortfolioView({ profile }: Props) {
               title="Work Experience"
               description="Current and previous roles in the various National Government Agencies."
             />
-            <ol className="experience-timeline relative mt-10 space-y-0 border-l-2 border-[var(--color-border)] pl-8">
+            <ol className="experience-timeline relative space-y-0">
               {experience.map((item) => (
                 <li
                   key={`${item.organization}-${item.period}`}
@@ -260,8 +261,8 @@ export function PortfolioView({ profile }: Props) {
           >
             <SectionHeading
               code="06"
-              title="Highlighted Projects"
-              description="Systems and platforms delivered for the various National Government Agencies."
+              title="Previous Projects"
+              description="Systems and platforms delivered for previous roles in various National Government Agencies."
             />
             <ul className="project-list mt-10 space-y-5">
               {projects.map((project) => (
@@ -301,33 +302,15 @@ export function PortfolioView({ profile }: Props) {
                               ))}
                             </ul>
                           ) : null}
-                          {project.tools.length > 0 ? (
-                            <ul className="mt-4 flex flex-wrap gap-2">
-                              {project.tools.map((tool) => (
-                                <li
-                                  key={tool}
-                                  className="tag-chip px-2.5 py-1 font-mono text-[11px] text-[var(--color-navy)]"
-                                >
-                                  {tool}
-                                </li>
-                              ))}
-                            </ul>
-                          ) : null}
                           {project.links.length > 0 ? (
-                            <ul className="mt-4 flex flex-wrap gap-3">
+                            <ul className="project-links mt-4 flex flex-wrap gap-2.5">
                               {project.links.map((link) => (
-                                <li key={link.href}>
-                                  <a
+                                <li key={`${project.title}-${link.href}`}>
+                                  <ExternalLinkButton
                                     href={link.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="link-cta inline-flex items-center gap-2 border border-[var(--color-navy)] bg-[var(--color-panel)] px-3 py-1.5 text-xs font-semibold text-[var(--color-navy)]"
-                                  >
-                                    {link.label}
-                                    <span aria-hidden className="font-mono">
-                                      ext
-                                    </span>
-                                  </a>
+                                    label={link.label}
+                                    size="compact"
+                                  />
                                 </li>
                               ))}
                             </ul>
@@ -349,28 +332,15 @@ export function PortfolioView({ profile }: Props) {
           id="connect"
           className="section-shell scroll-mt-10 py-12 lg:py-16"
         >
-            <SectionHeading
-              code="07"
-              title="Connect"
-              description="Professional channels."
+            <SectionHeading code="07" title="Connect" />
+            <ConnectPanel
+              name={profile.name}
+              title={profile.title}
+              headline={profile.headline}
+              location={profile.location}
+              summary={profile.summary}
+              links={links}
             />
-            <ul className="connect-links mt-8 flex flex-wrap gap-4">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link-cta inline-flex items-center gap-2 border-2 border-[var(--color-navy)] bg-[var(--color-sky)] px-5 py-3 text-sm font-semibold text-[var(--color-navy)]"
-                  >
-                    {link.label}
-                    <span aria-hidden className="font-mono text-xs">
-                      ext
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
         </RevealSection>
 
       </main>
@@ -440,6 +410,49 @@ function AgencyLogo({
   );
 }
 
+function ExternalLinkButton({
+  href,
+  label,
+  size = 'default',
+}: {
+  href: string;
+  label: string;
+  size?: 'default' | 'compact';
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`external-link-btn link-cta ${
+        size === 'compact' ? 'external-link-btn--compact' : ''
+      }`}
+    >
+      <span className="external-link-btn__label">{label}</span>
+      <ExternalLinkIcon className="external-link-btn__icon" aria-hidden />
+    </a>
+  );
+}
+
+function ExternalLinkIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M15 3h6v6" />
+      <path d="M10 14 21 3" />
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    </svg>
+  );
+}
+
 function MetaField({ label, value }: { label: string; value: string }) {
   return (
     <div className="section-card px-4 py-3">
@@ -460,7 +473,7 @@ function SectionHeading({
 }: {
   code: string;
   title: string;
-  description: string;
+  description?: string;
 }) {
   return (
     <header className="w-full border-b border-[var(--color-border)] pb-6">
@@ -475,9 +488,11 @@ function SectionHeading({
       <h2 className="mt-4 text-[1.625rem] font-bold leading-tight tracking-tight text-[var(--color-navy)] lg:text-3xl xl:text-[2.125rem]">
         {title}
       </h2>
-      <p className="mt-3 max-w-4xl text-base leading-relaxed text-[var(--color-muted)]">
-        {description}
-      </p>
+      {description ? (
+        <p className="mt-3 max-w-4xl text-base leading-relaxed text-[var(--color-muted)]">
+          {description}
+        </p>
+      ) : null}
     </header>
   );
 }

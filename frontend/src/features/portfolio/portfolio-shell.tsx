@@ -8,8 +8,6 @@ import { SiteNav } from '@/features/portfolio/site-nav';
 type Props = {
   children: ReactNode;
   showEducation: boolean;
-  /** Used for avatar initials (e.g. full name). */
-  displayName: string;
   navTitle?: string;
   navSubtitle?: string;
 };
@@ -17,7 +15,6 @@ type Props = {
 export function PortfolioShell({
   children,
   showEducation,
-  displayName,
   navTitle = 'josesgpadasas',
   navSubtitle = 'Personal Portfolio',
 }: Props) {
@@ -33,11 +30,10 @@ export function PortfolioShell({
         expanded={expanded}
         onToggle={() => setExpanded((v) => !v)}
         showEducation={showEducation}
-        displayName={displayName}
         navTitle={navTitle}
         navSubtitle={navSubtitle}
       />
-      <div className="shell-content min-h-screen min-w-0 w-full max-w-full box-border pl-[var(--nav-width)]">
+      <div className="shell-content min-h-screen min-w-0 w-full max-w-full box-border pt-[var(--mobile-header-height)] lg:pt-0 lg:pl-[var(--nav-width)]">
         {children}
       </div>
       <ScrollToTop />

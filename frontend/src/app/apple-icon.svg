@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="JP">
+  <rect width="180" height="180" rx="36" fill="#1b2a4e"/>
+  <rect x="14" y="14" width="152" height="152" rx="22" fill="#f5f8fc" stroke="#b9d1ea" stroke-width="7"/>
+  <text
+    x="90"
+    y="92"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="Segoe UI, ui-sans-serif, system-ui, sans-serif"
+    font-size="84"
+    font-weight="700"
+    fill="#1b2a4e"
+    letter-spacing="-0.08em"
+  >JP</text>
+  <rect x="136" y="28" width="20" height="20" rx="5.5" fill="#5eead4"/>
+</svg>

@@ -1,9 +1,11 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { BrandLogo } from '@/features/portfolio/brand-logo';
 import {
   IconCollapse,
   IconExpand,
+  IconMenu,
   NavIcon,
   type NavIconId,
 } from '@/features/portfolio/nav-icons';
@@ -26,7 +28,6 @@ type Props = {
   expanded: boolean;
   onToggle: () => void;
   showEducation?: boolean;
-  displayName?: string;
   navTitle?: string;
   navSubtitle?: string;
 };
@@ -35,7 +36,6 @@ export function SiteNav({
   expanded,
   onToggle,
   showEducation = true,
-  displayName = 'Portfolio',
   navTitle = 'josesgpadasas',
   navSubtitle = 'Personal Portfolio',
 }: Props) {
@@ -48,6 +48,15 @@ export function SiteNav({
   );
 
   const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? 'about');
+  const [isMobileNav, setIsMobileNav] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(width < 1024px)');
+    const syncViewport = () => setIsMobileNav(mq.matches);
+    syncViewport();
+    mq.addEventListener('change', syncViewport);
+    return () => mq.removeEventListener('change', syncViewport);
+  }, []);
 
   useEffect(() => {
     const elements = sections
@@ -94,16 +103,49 @@ export function SiteNav({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [expanded, onToggle]);
 
-  const initials =
-    displayName
-      .split(' ')
-      .filter(Boolean)
-      .slice(0, 3)
-      .map((part) => part[0]?.toUpperCase() ?? '')
-      .join('') || 'JEP';
+  useEffect(() => {
+    const mq = window.matchMedia('(width < 1024px)');
+    const syncScrollLock = () => {
+      if (mq.matches && expanded) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    };
+    syncScrollLock();
+    mq.addEventListener('change', syncScrollLock);
+    return () => {
+      mq.removeEventListener('change', syncScrollLock);
+      document.body.style.overflow = '';
+    };
+  }, [expanded]);
 
   return (
     <>
+      {!expanded ? (
+        <header className="nav-mobile-bar fixed inset-x-0 top-0 z-40 flex h-[var(--mobile-header-height)] items-center gap-3 border-b px-4 lg:hidden">
+          <BrandLogo className="h-10 w-10 shrink-0" />
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-mono text-sm font-semibold text-white">
+              {navTitle}
+            </p>
+            <p className="truncate text-[10px] uppercase tracking-wider text-[var(--color-nav-muted)]">
+              {navSubtitle}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onToggle}
+            aria-expanded={false}
+            aria-controls="site-nav-drawer"
+            aria-label="Open navigation menu"
+            className="nav-toggle flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--color-nav-border)] text-[var(--color-nav-text)] hover:border-[var(--color-sky)] hover:bg-[var(--color-nav-elevated)] hover:text-white"
+          >
+            <IconMenu className="h-5 w-5" aria-hidden />
+          </button>
+        </header>
+      ) : null}
+
       {expanded ? (
         <button
           type="button"
@@ -114,25 +156,22 @@ export function SiteNav({
       ) : null}
 
       <aside
+        id="site-nav-drawer"
         aria-label="Primary"
-        className={`nav-rail fixed inset-y-0 left-0 z-50 flex flex-col border-r border-[var(--color-nav-border)] pt-[env(safe-area-inset-top,0px)] transition-[width] duration-300 ease-out ${
+        aria-hidden={isMobileNav && !expanded ? true : undefined}
+        className={`nav-rail fixed inset-y-0 left-0 z-50 flex flex-col border-r border-[var(--color-nav-border)] pt-[env(safe-area-inset-top,0px)] ${
           expanded ? 'w-64' : 'w-[4.75rem]'
         }`}
       >
         <div
           className={`flex shrink-0 items-center border-b border-[var(--color-nav-border)] ${
-            expanded ? 'justify-between gap-2 px-4 py-5' : 'flex-col gap-3 py-4'
-          }`}
+            expanded ? 'justify-between gap-2 px-4 py-5' : 'flex-col gap-3 py-4 max-lg:hidden lg:flex'
+          } ${expanded ? '' : 'lg:flex-col lg:gap-3 lg:py-4'}`}
         >
           <div
             className={`flex items-center ${expanded ? 'min-w-0 gap-3' : 'justify-center'}`}
           >
-            <div
-              aria-hidden
-              className="flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--color-sky)] bg-[var(--color-nav-elevated)] font-mono text-xs font-medium text-[var(--color-sky)]"
-            >
-              {initials || 'JEP'}
-            </div>
+            <BrandLogo className="h-10 w-10 shrink-0" />
             {expanded ? (
               <div className="min-w-0">
                 <p className="truncate font-mono text-sm font-semibold text-white">
@@ -148,8 +187,16 @@ export function SiteNav({
             type="button"
             onClick={onToggle}
             aria-expanded={expanded}
-            aria-label={expanded ? 'Collapse navigation' : 'Expand navigation'}
-            className="nav-toggle flex h-9 w-9 shrink-0 items-center justify-center border border-[var(--color-nav-border)] text-[var(--color-nav-text)] hover:border-[var(--color-sky)] hover:bg-[var(--color-nav-elevated)] hover:text-white"
+            aria-label={
+              expanded
+                ? isMobileNav
+                  ? 'Close navigation menu'
+                  : 'Collapse navigation'
+                : 'Expand navigation'
+            }
+            className={`nav-toggle flex h-9 w-9 shrink-0 items-center justify-center border border-[var(--color-nav-border)] text-[var(--color-nav-text)] hover:border-[var(--color-sky)] hover:bg-[var(--color-nav-elevated)] hover:text-white ${
+              expanded ? '' : 'max-lg:hidden'
+            }`}
           >
             {expanded ? (
               <IconCollapse className="h-5 w-5" aria-hidden />
@@ -159,7 +206,7 @@ export function SiteNav({
           </button>
         </div>
 
-        <nav className="flex-1 overflow-x-hidden overflow-y-auto py-4">
+        <nav className="flex-1 overflow-x-hidden overflow-y-auto py-4 max-lg:pt-2">
           {expanded ? (
             <p className="mb-2 px-4 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-nav-muted)]">
               Navigate
@@ -178,7 +225,7 @@ export function SiteNav({
                     className={`nav-link group flex items-center rounded-sm ${
                       expanded
                         ? 'gap-3 border-l-2 px-3 py-2.5'
-                        : 'mx-auto w-10 justify-center py-2.5'
+                        : 'mx-auto w-10 justify-center py-2.5 max-lg:hidden'
                     } ${
                       active
                         ? expanded
@@ -216,7 +263,7 @@ export function SiteNav({
             <p className="mt-1 text-[var(--color-nav-text)]">v1.0</p>
           </div>
         ) : (
-          <div className="shrink-0 py-3 text-center">
+          <div className="max-lg:hidden shrink-0 py-3 text-center">
             <span className="status-pulse inline-block h-2 w-2 rounded-full bg-[var(--color-signal)]" />
           </div>
         )}
