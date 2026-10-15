@@ -81,7 +81,7 @@ const raw: Omit<PortfolioProfile, 'projects'> = {
   experience: [
     {
       organization:
-        'Department of Agriculture – Interim Agricultural Statistics Office',
+        'Department of Agriculture – Interim Agricultural Statistics National Coordination and Management Office (AgriStat NCMO)',
       role: 'Information System Analyst III',
       period: 'Mar 2025 – Present',
       logoPath: '/logos/da.svg',
@@ -89,7 +89,7 @@ const raw: Omit<PortfolioProfile, 'projects'> = {
     },
     {
       organization:
-        'National Fisheries Research and Development Institute – FishCORE PMO (FishCRRM 1.1)',
+        'National Fisheries Research and Development Institute – FishCORE Project Management Office (FishCRRM 1.1)',
       role: 'Senior Science Research Specialist',
       period: 'Nov 2025 – Dec 2025',
       logoPath: '/logos/nfrdi.svg',
@@ -97,15 +97,15 @@ const raw: Omit<PortfolioProfile, 'projects'> = {
     },
     {
       organization:
-        'Department of Human Settlements and Urban Development – KMISS KMD',
+        'Department of Human Settlements and Urban Development – Knowledge Management and Information Systems Service - Knowledge Management Division (KMISS KMD)',
       role: 'KM Technical Staff II',
-      period: 'Jan 2024 – Oct 2025',
+      period: 'Apr 2024 – Oct 2025',
       logoPath: '/logos/dhsud.svg',
       highlights: compactStrings([]),
     },
     {
       organization:
-        'Department of the Interior and Local Government – AS HRMD',
+        'Department of the Interior and Local Government – Administrative Services - Human Resources Management Division (AS HRMD)',
       role: 'Information System Analyst II',
       period: 'May 2023 – Mar 2024',
       logoPath: '/logos/dilg.svg',
@@ -113,22 +113,22 @@ const raw: Omit<PortfolioProfile, 'projects'> = {
     },
     {
       organization:
-        'Department of the Interior and Local Government – LEO70 PMO',
+        'Department of the Interior and Local Government – Localization of Executive Order 70 Project Management Office (LEO70 PMO)',
       role: 'Project Evaluation Officer III',
-      period: 'Jan 2022 – Dec 2023',
+      period: 'Jan 2022 – Apr 2023',
       logoPath: '/logos/dilg.svg',
       highlights: compactStrings([]),
     },
     {
       organization:
-        'Department of the Interior and Local Government – LEO70 PMO',
+        'Department of the Interior and Local Government – Localization of Executive Order 70 Project Management Office (LEO70 PMO)',
       role: 'Information System Analyst II',
       period: 'Jul 2020 – Dec 2021',
       logoPath: '/logos/dilg.svg',
       highlights: compactStrings([]),
     },
     {
-      organization: 'Department of the Interior and Local Government – OPDS',
+      organization: 'Department of the Interior and Local Government – Office of Project Development Service (OPDS)',
       role: 'Development Management Officer I',
       period: 'Nov 2018 – Jul 2020',
       logoPath: '/logos/dilg.svg',
