@@ -261,7 +261,7 @@ html {
     box-shadow 0.2s ease;
 }
 
-.section-card:hover {
+.section-card:is(:hover, :active) {
   border-color: color-mix(in srgb, var(--color-navy) 35%, var(--color-border));
   box-shadow: 5px 5px 0 0 var(--color-sky);
   transform: translate(-2px, -2px);
@@ -273,7 +273,7 @@ html {
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
-.tag-chip:hover {
+.tag-chip:is(:hover, :active) {
   border-color: var(--color-navy);
   background: var(--color-surface);
 }
@@ -285,7 +285,7 @@ html {
     box-shadow 0.2s ease;
 }
 
-.skill-chip:hover {
+.skill-chip:is(:hover, :active) {
   transform: translateY(-1px);
   background: var(--color-navy-soft);
   box-shadow: 0 4px 0 var(--color-sky);
@@ -297,7 +297,7 @@ html {
     box-shadow 0.2s ease;
 }
 
-.link-cta:hover {
+.link-cta:is(:hover, :active) {
   transform: translate(-2px, -2px);
   box-shadow: 4px 4px 0 0 var(--color-navy);
 }
@@ -329,7 +329,7 @@ html {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.portrait-frame:hover {
+.portrait-frame:is(:hover, :active) {
   transform: translate(-2px, -2px);
   box-shadow:
     10px 10px 0 0 var(--color-sky),
@@ -348,7 +348,7 @@ html {
   transition: transform 0.2s ease;
 }
 
-.timeline-node:hover::before {
+.timeline-node:is(:hover, :active)::before {
   transform: scale(1.12);
 }
 
@@ -443,13 +443,6 @@ html {
     top: -0.375rem;
   }
 
-  .hero-portrait .portrait-frame:hover {
-    transform: none;
-    box-shadow:
-      8px 8px 0 0 var(--color-sky),
-      var(--shadow-card);
-  }
-
   .experience-timeline {
     margin-left: 0.125rem;
     padding-left: 1.375rem;
@@ -467,21 +460,6 @@ html {
   .agency-logo__img {
     height: 2.75rem;
     width: 2.75rem;
-  }
-
-  .section-card:hover {
-    transform: none;
-    box-shadow: var(--shadow-card);
-  }
-
-  .link-cta:hover {
-    transform: none;
-    box-shadow: none;
-  }
-
-  .skill-chip:hover {
-    transform: none;
-    box-shadow: none;
   }
 
   .connect-links {
@@ -535,9 +513,11 @@ html {
     opacity: 1;
   }
 
-  .section-card:hover,
-  .link-cta:hover,
-  .portrait-frame:hover {
+  .section-card:is(:hover, :active),
+  .link-cta:is(:hover, :active),
+  .portrait-frame:is(:hover, :active),
+  .skill-chip:is(:hover, :active) {
     transform: none;
+    box-shadow: var(--shadow-card);
   }
 }
