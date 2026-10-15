@@ -31,7 +31,7 @@ export function PortfolioView({ profile }: Props) {
         >
             <div className="mb-10 inline-flex items-center gap-2 rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-navy-soft)] shadow-[var(--shadow-card)] animate-fade-in">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-signal)]" />
-              Open to collaboration
+              Open to Side Projects
             </div>
 
             <div className="hero-grid grid w-full gap-8 max-lg:min-w-0 lg:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(240px,22rem)] lg:items-start xl:grid-cols-[minmax(0,1fr)_minmax(260px,24rem)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(280px,26rem)]">
@@ -87,8 +87,8 @@ export function PortfolioView({ profile }: Props) {
         >
             <SectionHeading
               code="01"
-              title="Current focus"
-              description="Priority domains for systems work in the public sector."
+              title="Current Focus"
+              description="Priority areas for digital transformation work in the public sector."
             />
             <ul className="focus-grid mt-10 grid w-full gap-4">
               {focusAreas.map((area, index) => (
@@ -114,8 +114,8 @@ export function PortfolioView({ profile }: Props) {
         >
             <SectionHeading
               code="02"
-              title="Systems & capabilities"
-              description="Technical modules applied from discovery through delivery."
+              title="Skills & Capabilities"
+              description="Technical skills applied from previous and current work experiences."
             />
             <div className="cap-grid mt-10 grid w-full gap-5">
               {capabilities.map((cap) => (
@@ -150,8 +150,8 @@ export function PortfolioView({ profile }: Props) {
         >
             <SectionHeading
               code="03"
-              title="Work experience"
-              description="National government roles, newest first."
+              title="Work Experience"
+              description="Current and previous roles in the various National Government Agencies."
             />
             <ol className="experience-timeline relative mt-10 space-y-0 border-l-2 border-[var(--color-border)] pl-8">
               {experience.map((item) => (
@@ -199,8 +199,8 @@ export function PortfolioView({ profile }: Props) {
           >
               <SectionHeading
                 code="04"
-                title="Education"
-                description="Formal training supporting engineering and systems work."
+                title="Educational Background"
+                description="Educational attainment that shaped the knowledge and skills applied."
               />
               <ol className="mt-10 space-y-4">
                 {education.map((item) => (
@@ -268,8 +268,8 @@ export function PortfolioView({ profile }: Props) {
           >
             <SectionHeading
               code="06"
-              title="Projects"
-              description="Systems and platforms delivered for DILG and DHSUD (from professional portfolio)."
+              title="Highlighted Projects"
+              description="Systems and platforms delivered for the various National Government Agencies."
             />
             <ul className="project-list mt-10 space-y-5">
               {projects.map((project) => (
