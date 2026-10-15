@@ -1,6 +1,7 @@
 import profilePortrait from '@/assets/profile.jpg';
 import type { PortfolioProfile } from '@/lib/portfolio';
 import { RevealSection } from '@/features/portfolio/reveal-section';
+import { TechStackGrid } from '@/features/portfolio/tech-stack';
 
 function usesBundledPortrait(portraitPath: string): boolean {
   return (
@@ -249,16 +250,7 @@ export function PortfolioView({ profile }: Props) {
               title="Technology stack"
               description="Tools and disciplines in active use."
             />
-            <ul className="mt-10 flex flex-wrap gap-2">
-              {competencies.map((skill) => (
-                <li
-                  key={skill}
-                  className="skill-chip border border-[var(--color-navy)] bg-[var(--color-navy)] px-3 py-2 text-sm font-medium text-white"
-                >
-                  {skill}
-                </li>
-              ))}
-            </ul>
+            <TechStackGrid items={competencies} />
         </RevealSection>
 
         {projects.length > 0 ? (
