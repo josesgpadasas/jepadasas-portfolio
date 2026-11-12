@@ -2,6 +2,7 @@ import profilePortrait from '@/assets/profile.jpg';
 import type { PortfolioProfile } from '@/lib/portfolio';
 import { RevealSection } from '@/features/portfolio/reveal-section';
 import { ConnectPanel } from '@/features/portfolio/connect-section';
+import { DownloadPdfButton } from '@/features/portfolio/download-pdf-button';
 import { TechStackGrid } from '@/features/portfolio/tech-stack';
 
 function usesBundledPortrait(portraitPath: string): boolean {
@@ -31,9 +32,12 @@ export function PortfolioView({ profile }: Props) {
           id="about"
           className="scroll-mt-10 pb-12 lg:pb-16"
         >
-            <div className="mb-10 inline-flex items-center gap-2 rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-navy-soft)] shadow-[var(--shadow-card)] animate-fade-in">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-signal)]" />
-              Open to Side Projects
+            <div className="mb-10 flex flex-wrap items-center justify-between gap-3 animate-fade-in">
+              <div className="inline-flex items-center gap-2 rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-navy-soft)] shadow-[var(--shadow-card)]">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-signal)]" />
+                Open to Side Projects
+              </div>
+              <DownloadPdfButton />
             </div>
 
             <div className="hero-grid grid w-full gap-8 max-lg:min-w-0 lg:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(240px,22rem)] lg:items-start xl:grid-cols-[minmax(0,1fr)_minmax(260px,24rem)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(280px,26rem)]">

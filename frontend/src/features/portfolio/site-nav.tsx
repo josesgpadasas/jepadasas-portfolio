@@ -3,7 +3,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BrandLogo } from '@/features/portfolio/brand-logo';
 import {
+  PORTFOLIO_PDF_FILENAME,
+  PORTFOLIO_PDF_PATH,
+} from '@/features/portfolio/download-pdf-button';
+import {
   IconCollapse,
+  IconDownload,
   IconExpand,
   IconMenu,
   NavIcon,
@@ -256,6 +261,31 @@ export function SiteNav({
             })}
           </ul>
         </nav>
+
+        <div
+          className={`shrink-0 border-t border-[var(--color-nav-border)] ${
+            expanded ? 'px-2 py-3' : 'max-lg:hidden px-1.5 py-3'
+          }`}
+        >
+          <a
+            href={PORTFOLIO_PDF_PATH}
+            download={PORTFOLIO_PDF_FILENAME}
+            title={!expanded ? 'Download PDF' : undefined}
+            aria-label="Download portfolio as PDF"
+            onClick={closeMobileOverlay}
+            className={`nav-link group flex items-center rounded-sm text-[var(--color-nav-text)] hover:bg-[var(--color-nav-elevated)] hover:text-white ${
+              expanded ? 'gap-3 border-l-2 border-transparent px-3 py-2.5' : 'mx-auto w-10 justify-center py-2.5'
+            }`}
+          >
+            <IconDownload
+              className="h-5 w-5 shrink-0 text-[var(--color-nav-muted)] group-hover:text-[var(--color-sky)]"
+              aria-hidden
+            />
+            {expanded ? (
+              <span className="truncate text-sm font-medium">Download PDF</span>
+            ) : null}
+          </a>
+        </div>
 
         {expanded ? (
           <div className="shrink-0 border-t border-[var(--color-nav-border)] px-4 py-4 font-mono text-[10px] leading-relaxed text-[var(--color-nav-muted)]">

@@ -40,7 +40,7 @@ export const rawProjects: PortfolioProject[] = [
     organization: 'DHSUD – KMISS KMD',
     logoPath: '/logos/dhsud.svg',
     summary:
-      'Knowledge management web application that consolidate legal references, manuals, policies, guidelines, training materials, and downloadable forms for DHSUD personnel.',
+      'Knowledge management web application that consolidates legal references, manuals, policies, guidelines, training materials, and downloadable forms for DHSUD personnel.',
     highlights: compactStrings([
       'Single hub for internal and external transaction forms',
       'Supports knowledge sharing and version control',
@@ -54,7 +54,7 @@ export const rawProjects: PortfolioProject[] = [
     organization: 'DHSUD',
     logoPath: '/logos/dhsud.svg',
     summary:
-      'Public-facing webpage page for the Pambansang Pabahay Para sa Pilipino (4PH) program for public information and awareness.',
+      'Public-facing web page for the Pambansang Pabahay Para sa Pilipino (4PH) program for public information and awareness.',
     highlights: compactStrings([
       'Program information and transparency for housing applicants',
       'Application guide and direct access to PAG-IBIG membership registration',

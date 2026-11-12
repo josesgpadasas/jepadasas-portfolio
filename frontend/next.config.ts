@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  serverExternalPackages: ["@react-pdf/renderer"],
+  outputFileTracingIncludes: {
+    "/portfolio.pdf": ["./src/assets/fonts/**", "./public/profile.jpg"],
+  },
   turbopack: {
     rules: {
       "*.css": {
