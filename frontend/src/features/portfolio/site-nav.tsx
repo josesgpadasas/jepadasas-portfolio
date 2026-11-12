@@ -52,10 +52,12 @@ export function SiteNav({
     [showEducation],
   );
 
-  const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? 'about');
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [isMobileNav, setIsMobileNav] = useState(false);
+  const [navReady, setNavReady] = useState(false);
 
   useEffect(() => {
+    setNavReady(true);
     const mq = window.matchMedia('(width < 1024px)');
     const syncViewport = () => setIsMobileNav(mq.matches);
     syncViewport();
@@ -64,6 +66,7 @@ export function SiteNav({
   }, []);
 
   useEffect(() => {
+    if (!navReady) return;
     const elements = sections
       .map((s) => document.getElementById(s.id))
       .filter((el): el is HTMLElement => el !== null);
@@ -84,7 +87,7 @@ export function SiteNav({
 
     for (const el of elements) observer.observe(el);
     return () => observer.disconnect();
-  }, [sections]);
+  }, [navReady, sections]);
 
   const closeMobileOverlay = useCallback(() => {
     if (
@@ -163,7 +166,7 @@ export function SiteNav({
       <aside
         id="site-nav-drawer"
         aria-label="Primary"
-        aria-hidden={isMobileNav && !expanded ? true : undefined}
+        aria-hidden={navReady && isMobileNav && !expanded}
         className={`nav-rail fixed inset-y-0 left-0 z-50 flex flex-col border-r border-[var(--color-nav-border)] pt-[env(safe-area-inset-top,0px)] ${
           expanded ? 'w-64' : 'w-[4.75rem]'
         }`}
@@ -219,7 +222,7 @@ export function SiteNav({
           ) : null}
           <ul className={`space-y-1 ${expanded ? 'px-2' : 'px-1.5'}`}>
             {sections.map((item) => {
-              const active = activeId === item.id;
+              const active = navReady && activeId === item.id;
               return (
                 <li key={item.id}>
                   <a

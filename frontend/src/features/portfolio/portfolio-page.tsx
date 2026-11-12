@@ -1,3 +1,4 @@
+import { PortfolioAssistant } from '@/features/portfolio/portfolio-assistant';
 import { PortfolioShell } from '@/features/portfolio/portfolio-shell';
 import { PortfolioView } from '@/features/portfolio/portfolio-view';
 import { fetchPortfolioProfile } from '@/lib/portfolio';
@@ -12,6 +13,7 @@ export async function PortfolioPage() {
       navSubtitle="Personal Portfolio"
     >
       <PortfolioView profile={profile} />
+      <PortfolioAssistant profile={profile} />
     </PortfolioShell>
   );
 }

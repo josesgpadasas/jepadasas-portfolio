@@ -26,7 +26,7 @@ export function ScrollToTop() {
       type="button"
       aria-label="Back to top"
       onClick={scrollToTop}
-      className={`scroll-to-top fixed bottom-6 right-6 z-40 lg:bottom-8 lg:right-8 ${
+      className={`scroll-to-top ${
         visible ? 'scroll-to-top--visible' : ''
       }`}
     >

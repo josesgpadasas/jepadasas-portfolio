@@ -902,12 +902,584 @@ html {
   object-position: center;
 }
 
+/* The mascot sits flush with the viewport bottom; back-to-top and the chat panel stack above it. */
+:root {
+  --mascot-size: 10rem;
+  --mascot-right: max(1rem, calc(env(safe-area-inset-right, 0px) + 0.75rem));
+}
+
+.assistant-mascot-trigger {
+  position: fixed;
+  z-index: 45;
+  display: block;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  right: var(--mascot-right);
+  bottom: 0;
+}
+
+.assistant-mascot-trigger:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 9999px;
+}
+
+.assistant-mascot__figure {
+  position: relative;
+  display: block;
+  width: var(--mascot-size);
+  height: var(--mascot-size);
+}
+
+.assistant-mascot__rig {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 14px color-mix(in srgb, var(--color-navy) 22%, transparent));
+}
+
+/*
+ * Rig hierarchy (all boxes share the 1024px art canvas, so % = canvas position):
+ * body (breathing, pivots at the waist) → head (pivots under the chin) + hand (pivots at the wrist).
+ * Hand cycle is half the head cycle so the head leans in on every other wave.
+ */
+.assistant-mascot__rig {
+  --mascot-wave: 3.6s;
+  --mascot-look: 7.2s;
+  --mascot-breath: 3.8s;
+}
+
+.assistant-mascot__body,
+.assistant-mascot__head,
+.assistant-mascot__hand,
+.assistant-mascot__layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+
+.assistant-mascot__layer {
+  object-fit: contain;
+}
+
+.assistant-mascot__body {
+  transform-origin: 50% 100%;
+  animation: mascot-breath var(--mascot-breath) ease-in-out infinite;
+  will-change: transform;
+}
+
+.assistant-mascot__head {
+  z-index: 2;
+  transform-origin: 52.2% 63.5%;
+  animation: mascot-look var(--mascot-look) linear infinite;
+  will-change: transform;
+}
+
+.assistant-mascot__hand {
+  z-index: 3;
+  transform-origin: 22.9% 75.4%;
+  animation: mascot-wave var(--mascot-wave) linear infinite;
+  will-change: transform;
+}
+
+.assistant-mascot__eyes {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  mask: url('/mascot-eye-mask.png') center / 100% 100% no-repeat;
+}
+
+/* Travel is in % of the art canvas: ~14px sideways, ~7px vertically. */
+.assistant-mascot__irises {
+  transform: translate3d(
+    calc(var(--gaze-x, 0) * 1.35%),
+    calc(var(--gaze-y, 0) * 0.65%),
+    0
+  );
+  will-change: transform;
+}
+
+.assistant-mascot__lid {
+  position: absolute;
+  border-bottom: 1.5px solid #14213a;
+  border-radius: 46% 46% 50% 50% / 40% 40% 60% 60%;
+  background: #fecda4;
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  animation: mascot-blink 5.6s linear infinite;
+}
+
+.assistant-mascot__lid--left {
+  left: 35.5%;
+  top: 37.7%;
+  width: 12.1%;
+  height: 9.7%;
+}
+
+.assistant-mascot__lid--right {
+  left: 55.5%;
+  top: 36.9%;
+  width: 13.2%;
+  height: 10.7%;
+  border-radius: 46% 46% 44% 44% / 40% 40% 50% 50%;
+  animation-delay: 0.02s;
+}
+
+.assistant-mascot__rig--open .assistant-mascot__head {
+  animation: mascot-listen 4.8s ease-in-out infinite;
+}
+
+.assistant-mascot__rig--open .assistant-mascot__hand {
+  animation: mascot-hand-rest 4.8s ease-in-out infinite;
+}
+
+.assistant-mascot__art--fallback {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: var(--mascot-size);
+  height: var(--mascot-size);
+  border: 3px solid var(--color-navy);
+  border-radius: 40% 40% 42% 42%;
+  object-fit: cover;
+  object-position: center top;
+  background: var(--color-panel);
+  filter: saturate(1.12) contrast(1.05)
+    drop-shadow(0 8px 12px color-mix(in srgb, var(--color-navy) 20%, transparent));
+  animation: mascot-breath 3.8s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+.assistant-mascot__bubble {
+  position: absolute;
+  z-index: 3;
+  top: -0.35rem;
+  right: 0.1rem;
+  max-width: 7.5rem;
+  border: 2px solid var(--color-navy);
+  border-radius: var(--radius-sm);
+  background: var(--color-sky);
+  padding: 0.25rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-navy);
+  box-shadow: 2px 2px 0 0 var(--color-navy);
+  animation: mascot-bubble 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  animation-delay: 0.15s;
+}
+
+.assistant-mascot__bubble::after {
+  content: '';
+  position: absolute;
+  right: 1.1rem;
+  bottom: -0.45rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-right: 2px solid var(--color-navy);
+  border-bottom: 2px solid var(--color-navy);
+  background: var(--color-sky);
+  transform: rotate(45deg);
+}
+
+.assistant-mascot-trigger:is(:hover, :focus-visible):not(.assistant-mascot-trigger--open)
+  .assistant-mascot__hand {
+  animation: mascot-wave-eager 1.2s linear infinite;
+}
+
+/* Damped wave burst (lift → swings that shrink → settle), then a relaxed hold. */
+@keyframes mascot-wave {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.4, 1);
+  }
+  7% {
+    transform: translate3d(0, -1px, 0) rotate(-15deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  16% {
+    transform: translate3d(0, -1.2px, 0) rotate(11deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  25% {
+    transform: translate3d(0, -1px, 0) rotate(-12deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  34% {
+    transform: translate3d(0, -0.8px, 0) rotate(7deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  43% {
+    transform: translate3d(0, -0.4px, 0) rotate(-4deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  52% {
+    transform: translate3d(0, 0, 0) rotate(1.5deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  62% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  82% {
+    transform: translate3d(0, 0.3px, 0) rotate(-1.5deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes mascot-wave-eager {
+  0%,
+  100% {
+    transform: translate3d(0, -1px, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.5, 1);
+  }
+  25% {
+    transform: translate3d(0, -1.4px, 0) rotate(-16deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  75% {
+    transform: translate3d(0, -1.4px, 0) rotate(13deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.7, 1);
+  }
+}
+
+@keyframes mascot-hand-rest {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-4deg);
+  }
+}
+
+/* Leans toward the waving hand, recovers, nods, then a curious tilt the other way. */
+@keyframes mascot-look {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.3, 1);
+  }
+  9% {
+    transform: translate3d(-0.4px, 0, 0) rotate(-2.6deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  26% {
+    transform: translate3d(-0.3px, 0, 0) rotate(-1.9deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  38% {
+    transform: translate3d(0, 0, 0) rotate(0.5deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  50% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.35, 0, 0.5, 1);
+  }
+  54% {
+    transform: translate3d(0, 1.1px, 0) rotate(0.6deg) scaleY(0.992);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.4, 1);
+  }
+  59% {
+    transform: translate3d(0, -0.3px, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.4, 1);
+  }
+  63% {
+    transform: translate3d(0, 0.6px, 0) rotate(0.3deg) scaleY(0.996);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  76% {
+    transform: translate3d(0.3px, 0, 0) rotate(1.8deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  90% {
+    transform: translate3d(0.2px, 0, 0) rotate(1.2deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes mascot-listen {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(1.4deg);
+  }
+  30% {
+    transform: translate3d(0.3px, 0.5px, 0) rotate(2.6deg);
+  }
+  60% {
+    transform: translate3d(0, -0.3px, 0) rotate(0.6deg);
+  }
+}
+
+@keyframes mascot-breath {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(0.997, 1.014);
+  }
+}
+
+/* A single blink, then a quick double blink later in the cycle. */
+@keyframes mascot-blink {
+  0%,
+  46%,
+  49%,
+  88%,
+  90.6%,
+  92%,
+  94.6%,
+  100% {
+    transform: scaleY(0);
+  }
+  47.5%,
+  89.3%,
+  93.3% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes mascot-bubble {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+.assistant-panel {
+  position: fixed;
+  z-index: 46;
+  display: flex;
+  overflow: hidden;
+  max-height: min(36rem, calc(100dvh - var(--mascot-size) - 1.25rem));
+  width: min(26rem, calc(100vw - 2rem));
+  flex-direction: column;
+  border: 2px solid var(--color-navy);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-surface) 96%, white);
+  box-shadow:
+    10px 10px 0 0 color-mix(in srgb, var(--color-navy) 16%, transparent),
+    0 12px 28px color-mix(in srgb, var(--color-navy) 10%, transparent);
+  right: var(--mascot-right);
+  left: auto;
+  bottom: calc(var(--mascot-size) + 0.5rem);
+}
+
+.assistant-panel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-sky) 28%, #fff) 0%,
+    color-mix(in srgb, var(--color-surface) 92%, white) 100%
+  );
+  padding: 0.9rem 1rem 0.8rem;
+}
+
+.assistant-panel__eyebrow {
+  color: var(--color-accent);
+}
+
+.assistant-panel__title {
+  color: var(--color-navy);
+}
+
+.assistant-panel__close {
+  display: flex;
+  flex-shrink: 0;
+  height: 2rem;
+  width: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-navy);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--color-navy);
+  box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--color-navy) 35%, transparent);
+}
+
+.assistant-panel__close:hover {
+  background: var(--color-sky);
+}
+
+.assistant-panel__modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem 0.15rem;
+}
+
+.assistant-mode-btn {
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: #fff;
+  padding: 0.3rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.assistant-mode-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-navy);
+}
+
+.assistant-mode-btn--active {
+  border-color: var(--color-navy);
+  background: var(--color-navy);
+  color: #fff;
+  box-shadow: 2px 2px 0 0 var(--color-sky);
+}
+
+.assistant-panel__messages {
+  flex: 1;
+  min-height: 9rem;
+  overflow-y: auto;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+.assistant-bubble {
+  max-width: 92%;
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.8rem;
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--color-navy) 6%, transparent);
+}
+
+.assistant-bubble__text {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.assistant-bubble--user {
+  align-self: flex-end;
+  border: 1px solid color-mix(in srgb, var(--color-navy) 22%, var(--color-border));
+  background: color-mix(in srgb, var(--color-panel) 88%, white);
+  color: var(--color-ink);
+}
+
+.assistant-bubble--bot {
+  align-self: flex-start;
+  border: 1px solid color-mix(in srgb, var(--color-sky) 55%, var(--color-border));
+  border-left: 3px solid var(--color-accent);
+  background: #fff;
+  color: var(--color-ink);
+}
+
+.assistant-panel__form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  border-top: 1px solid var(--color-border);
+  padding: 0.7rem 1rem 0.55rem;
+  background: #fff;
+}
+
+.assistant-panel__input {
+  resize: none;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  padding: 0.6rem 0.7rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-ink);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.assistant-panel__input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-sky) 65%, transparent);
+}
+
+.assistant-panel__send {
+  align-self: end;
+  min-height: 2.65rem;
+  min-width: 4.5rem;
+  border: 2px solid var(--color-navy);
+  border-radius: var(--radius-sm);
+  background: var(--color-sky);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  box-shadow: 2px 2px 0 0 var(--color-navy);
+}
+
+.assistant-panel__send:hover {
+  background: color-mix(in srgb, var(--color-sky) 70%, white);
+}
+
+.assistant-panel__note {
+  padding: 0 1rem 0.85rem;
+  font-size: 0.62rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  background: #fff;
+}
+
+@media (width < 1024px) {
+  .assistant-panel {
+    right: max(0.65rem, calc(env(safe-area-inset-right, 0px) + 0.5rem));
+    left: max(0.65rem, calc(env(safe-area-inset-left, 0px) + 0.5rem));
+    width: auto;
+    max-height: min(32rem, calc(100dvh - var(--mascot-size) - 5rem));
+    bottom: calc(var(--mascot-size) + 0.5rem);
+  }
+
+  :root {
+    --mascot-size: 8rem;
+    --mascot-right: max(0.5rem, calc(env(safe-area-inset-right, 0px) + 0.35rem));
+  }
+}
+
 .scroll-to-top {
+  --scroll-btn-size: 3rem;
+  position: fixed;
+  z-index: 40;
+  /* Centered over the mascot artwork, whose figure sits slightly left of its box center. */
+  right: calc(var(--mascot-right) + var(--mascot-size) * 0.54 - var(--scroll-btn-size) / 2);
+  bottom: calc(var(--mascot-size) + 0.75rem);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 3rem;
-  width: 3rem;
+  height: var(--scroll-btn-size);
+  width: var(--scroll-btn-size);
   border-radius: 9999px;
   border: 2px solid var(--color-navy);
   background: var(--color-surface);
@@ -957,8 +1529,7 @@ html {
 
 @media (width >= 1024px) {
   .scroll-to-top {
-    height: 3.25rem;
-    width: 3.25rem;
+    --scroll-btn-size: 3.25rem;
   }
 }
 
@@ -1006,8 +1577,7 @@ html {
   }
 
   .scroll-to-top {
-    bottom: max(1.25rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem));
-    right: max(1rem, calc(env(safe-area-inset-right, 0px) + 0.75rem));
+    bottom: calc(var(--mascot-size) + 0.5rem);
   }
 }
 
@@ -1021,6 +1591,9 @@ html {
   .link-cta,
   .external-link-btn,
   .download-pdf-btn,
+  .assistant-mascot-trigger,
+  .assistant-mascot__bubble,
+  .assistant-panel__send,
   .linkedin-cta,
   .backdrop-workspace,
   .portrait-frame,
@@ -1041,8 +1614,14 @@ html {
 
   .animate-fade-in,
   .status-pulse,
-  .nav-mobile-backdrop {
-    animation: none;
+  .nav-mobile-backdrop,
+  .assistant-mascot__body,
+  .assistant-mascot__head,
+  .assistant-mascot__hand,
+  .assistant-mascot__lid,
+  .assistant-mascot__bubble,
+  .assistant-mascot__art--fallback {
+    animation: none !important;
   }
 
   .nav-mobile-backdrop {
@@ -1052,6 +1631,7 @@ html {
   .section-card:is(:hover, :active),
   .external-link-btn:is(:hover, :active),
   .download-pdf-btn:is(:hover, :active),
+  .assistant-panel__send:is(:hover, :active),
   .linkedin-cta:is(:hover, :active),
   .portrait-frame:is(:hover, :active),
   .skill-chip:is(:hover, :active) {
